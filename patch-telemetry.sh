@@ -66,13 +66,6 @@ const fs = require("fs");
 const target = process.argv[1];
 let code = fs.readFileSync(target, "utf8");
 
-const OLD = [
-  "unary(t,n,r,s,o,i,a){",
-  "const u=e._getTransportForService(t.typeName,n.name);",
-  "if(void 0===u)throw new Error(\"INVARIANT VIOLATION: Transport is undefined for service: \"+t.typeName);",
-  "return u.transport.unary(t,n,r,s,o,i,a)}"
-].join("");
-
 const INTERCEPT = [
   "try{if((\"aiserver.v1.AnalyticsService\"===t.typeName",
   "&&\"BootstrapStatsig\"!==n.name)",
@@ -83,14 +76,20 @@ const INTERCEPT = [
   "header:new Headers,message:_O,trailer:new Headers})}}catch(_){}"
 ].join("");
 
-const NEW = "unary(t,n,r,s,o,i,a){" + INTERCEPT + OLD.slice("unary(t,n,r,s,o,i,a){".length);
+const RE = /unary\(t,n,r,s,o,i,a\)\{const ([a-zA-Z_$][a-zA-Z0-9_$]*)=e\._getTransportForService\(t\.typeName,n\.name\);if\(void 0===\1\)throw new Error\("INVARIANT VIOLATION: Transport is undefined for service: "\+t\.typeName\);return \1\.transport\.unary\(t,n,r,s,o,i,a\)\}/;
+const match = code.match(RE);
 
-if (!code.includes(OLD)) {
+if (!match) {
   console.error("  [fail] 未找到目标代码模式，Cursor 版本可能不匹配");
   process.exit(1);
 }
 
-code = code.replace(OLD, NEW);
+const NEW = match[0].replace(
+  "unary(t,n,r,s,o,i,a){",
+  "unary(t,n,r,s,o,i,a){" + INTERCEPT
+);
+
+code = code.replace(RE, NEW);
 fs.writeFileSync(target, code, "utf8");
 console.log("  [ok] 拦截器已注入");
 ' "$TARGET"
