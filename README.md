@@ -1,5 +1,7 @@
 # Cursor Telemetry Patch
 
+[中文文档](README_cn.md)
+
 Block Cursor IDE from sending telemetry and analytics data to its backend servers.
 
 ## What It Does
@@ -52,17 +54,25 @@ The patch modifies two files inside `Cursor.app`:
 
 ## Usage
 
-### Apply Patch
+### Quick Install (curl)
 
 ```bash
-sudo ./patch-telemetry.sh
+# Apply patch
+curl -fsSL https://raw.githubusercontent.com/lyonle/patch-cursor-telemetry/main/patch-telemetry.sh | sudo bash
+
+# Remove patch
+curl -fsSL https://raw.githubusercontent.com/lyonle/patch-cursor-telemetry/main/unpatch-telemetry.sh | sudo bash
 ```
 
 Then restart Cursor.
 
-### Remove Patch
+### Local Install
 
 ```bash
+# Apply patch
+sudo ./patch-telemetry.sh
+
+# Remove patch
 sudo ./unpatch-telemetry.sh
 ```
 
@@ -70,7 +80,7 @@ Then restart Cursor.
 
 ### After Cursor Updates
 
-Cursor updates overwrite both patched files. Re-run `patch-telemetry.sh` after each update.
+Cursor updates overwrite both patched files. Re-run the patch command after each update.
 
 If macOS blocks file access with `Operation not permitted`, clear the quarantine attribute first:
 
