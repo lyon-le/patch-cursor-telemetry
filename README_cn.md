@@ -58,10 +58,10 @@
 
 ```bash
 # 应用补丁
-curl -fsSL https://raw.githubusercontent.com/lyonle/patch-cursor-telemetry/main/patch-telemetry.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lyon-le/patch-cursor-telemetry/main/patch-telemetry.sh | sudo bash
 
 # 恢复原文件
-curl -fsSL https://raw.githubusercontent.com/lyonle/patch-cursor-telemetry/main/unpatch-telemetry.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lyon-le/patch-cursor-telemetry/main/unpatch-telemetry.sh | sudo bash
 ```
 
 执行后重启 Cursor。

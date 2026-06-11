@@ -76,7 +76,7 @@ const INTERCEPT = [
   "header:new Headers,message:_O,trailer:new Headers})}}catch(_){}"
 ].join("");
 
-const RE = /unary\(t,n,r,s,o,i,a\)\{const ([a-zA-Z_$][a-zA-Z0-9_$]*)=e\._getTransportForService\(t\.typeName,n\.name\);if\(void 0===\1\)throw new Error\("INVARIANT VIOLATION: Transport is undefined for service: "\+t\.typeName\);return \1\.transport\.unary\(t,n,r,s,o,i,a\)\}/;
+const RE = /unary\((t,n(?:,[a-zA-Z_$][a-zA-Z0-9_$]*){5})\)\{const ([a-zA-Z_$][a-zA-Z0-9_$]*)=e\._getTransportForService\(t\.typeName,n\.name\);if\(void 0===\2\)throw new Error\("INVARIANT VIOLATION: Transport is undefined for service: "\+t\.typeName\);return \2\.transport\.unary\(\1\)\}/;
 const match = code.match(RE);
 
 if (!match) {
@@ -84,9 +84,10 @@ if (!match) {
   process.exit(1);
 }
 
+const params = match[1];
 const NEW = match[0].replace(
-  "unary(t,n,r,s,o,i,a){",
-  "unary(t,n,r,s,o,i,a){" + INTERCEPT
+  "unary(" + params + "){",
+  "unary(" + params + "){" + INTERCEPT
 );
 
 code = code.replace(RE, NEW);

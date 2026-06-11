@@ -58,10 +58,10 @@ The patch modifies two files inside `Cursor.app`:
 
 ```bash
 # Apply patch
-curl -fsSL https://raw.githubusercontent.com/lyonle/patch-cursor-telemetry/main/patch-telemetry.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lyon-le/patch-cursor-telemetry/main/patch-telemetry.sh | sudo bash
 
 # Remove patch
-curl -fsSL https://raw.githubusercontent.com/lyonle/patch-cursor-telemetry/main/unpatch-telemetry.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/lyon-le/patch-cursor-telemetry/main/unpatch-telemetry.sh | sudo bash
 ```
 
 Then restart Cursor.
